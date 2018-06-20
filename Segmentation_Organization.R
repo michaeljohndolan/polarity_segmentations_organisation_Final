@@ -12,18 +12,20 @@ NAmaster_path<-("/Users/dolanm/Dropbox/JFRCvisitorProject/Neuroanatomy_Master.xl
 setwd("~/projects/polarity_segmentations_organisation_Final")
 NA_master<-read.xlsx2(file = NAmaster_path, sheetIndex = 1)
 NA_master<-filter(NA_master, PolarityDataAvailable.green.means.segmentation.done.=="Yes")
-NA_master<-select(NA_master, LHClusters., FinalNames, Polarity., Neurotransmitter)
+NA_master<-select(NA_master, LHClusters., FinalNames, Polarity, Neurotransmitter)
 Case4<-read.xlsx(file = "Case4_Segment.xlsx", sheetIndex = 1)
 Polarity<-read.xlsx(file = "Polarity_Segment.xlsx", sheetIndex = 1)
+
 #Remove extra characters from the cell-type names
 NA_master$LHClusters.<-gsub(x = NA_master$LHClusters., pattern = "\n", replacement = "", fixed = TRUE)
 Case4$Splitlines_cluster..Cluster<-gsub(x = Case4$Splitlines_cluster..Cluster, pattern = "\n", replacement = "", fixed = TRUE)
 Polarity$Splitlines_cluster..Cluster<-gsub(x = Polarity$Splitlines_cluster..Cluster, pattern = "\n", replacement = "", fixed = TRUE)
+
 #Merge the Case4 and Polarity data frames with my NAmaster
 merge1<-merge(x = Case4,by.x = "Splitlines_cluster..Cluster", y = NA_master, by.y = "LHClusters.",all.x = TRUE, all.y=FALSE)
 names(merge1)<-c("celltype", "ImageID", "LineCode", "Segment", "FinalNames", "Polarity", "Neurotransmitter")
 merge2<-merge(x = Polarity,by.x = "Splitlines_cluster..Cluster", y = NA_master, by.y = "LHClusters.",all.x = TRUE, all.y=FALSE)
-merge2<-select(merge2, Splitlines_cluster..Cluster, PolarityImageCode, LineCode, Segmentable, FinalNames,Polarity., Neurotransmitter )
+merge2<-select(merge2, Splitlines_cluster..Cluster, PolarityImageCode, LineCode, Segmentable, FinalNames,Polarity, Neurotransmitter )
 names(merge2)<-c("celltype", "ImageID", "LineCode", "Segment", "FinalNames", "Polarity", "Neurotransmitter")
 
 ImagesToClusters<-rbind(merge1, merge2)
