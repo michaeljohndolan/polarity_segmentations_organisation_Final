@@ -14,7 +14,7 @@ setwd(abovedir)
 dir.create("macro_input")
 inputdir<-"/Volumes/Samsung_T3/LH_segmentations/macro_input/mask.tif"
 #Set the command to call ImageJ and the marco. Be sure to include a space at the end! 
-command<-"java -Xmx5024m -jar /Applications/ImageJ/ImageJ.app/Contents/Java/ij.jar -ijpath /Applications/ImageJ -macro /GD/LMBD/projects/polarity_segmentations_organisation_Final/LH_mask_macro.ijm "
+command<-"java -Xmx5024m -jar /Applications/ImageJ/ImageJ.app/Contents/Java/ij.jar -ijpath /Applications/ImageJ -macro /Users/michaeljohndolan/projects/polarity_segmentations_organisation_Final/LH_mask_macro.ijm "
 setwd(maindir)
 
 list1<-list.files() #Lists three different catagories 
