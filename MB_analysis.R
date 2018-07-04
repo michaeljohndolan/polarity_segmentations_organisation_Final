@@ -18,8 +18,7 @@ library(NMF)                # aheatmap()
 #First lets make the masks
 maindir<-"/Volumes/Samsung_T3/"
 setwd(maindir)
-dir.create("macro_input")
-inputdir<-"/Volumes/Samsung_T3/Split_Channel_Images/macro_input/mask.tif"
+inputdir<-"/Volumes/Samsung_T3/LH_segmentations/macro_input/mask.tif"
 setwd("./MB_segmentations/")
 curdir<-getwd()
 command<-"java -Xmx5024m -jar /Applications/ImageJ/ImageJ.app/Contents/Java/ij.jar -ijpath /Applications/ImageJ -macro /Users/michaeljohndolan/projects/polarity_segmentations_organisation_Final/MB_mask_macro.ijm "
@@ -54,13 +53,13 @@ for (i in 1:length(list1)) {
                 tiffs.axon<-paste(tiffs.axon, collapse = "*") #Concatenate into one argument for the ImageJ macro call
                 system(paste0(command,tiffs.axon))
                 #Set the mask output folder in the macro too
-                file.rename(from = inputdir,to = paste0("/Volumes/LaCie/Split_Channel_Images/macro_input/"
+                file.rename(from = inputdir,to = paste0("/Volumes/Samsung_T3/LH_segmentations/macro_input/"
                                                         ,"Mask_axon_", list1[i], "_",list2[j], "_v1.tif"))
         }
 }
                 
 #Now to perform the overlap analysis.Code modified from mask_overlap_calulation.R 
-setwd("Desktop/macro_input/") #Ran the analysis off harddrive. 
+setwd("/Volumes/Samsung_T3/LH_segmentations/macro_input/") #Ran the analysis off harddrive. 
 
 #Function for calculating the percentage overlap between two masks. 
 #Does not use actual n, rather divides score by 255. 
@@ -116,14 +115,13 @@ catagory.overlap(query_type = "Output", target_type = "MBON",
 catagory.overlap(query_type = "Output", target_type = "DAN", 
                  query_catagory = "axonmemb", target_catagory = "den")
 
-#MBON outputs and LHN local neurons
-catagory.overlap(query_type = "Local", target_type = "MBON", 
-                 query_catagory = "memb", target_catagory = "axon")
-
 # MBON axons and LHON dendrites 
 catagory.overlap(query_type = "Output", target_type = "MBON", 
                  query_catagory = "den", target_catagory = "axon")
 
+#MBON outputs and LHN local neurons
+catagory.overlap(query_type = "Local", target_type = "MBON", 
+                 query_catagory = "memb", target_catagory = "axon")
 
 
 
